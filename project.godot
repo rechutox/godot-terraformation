@@ -1,0 +1,42 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Reference",
+"class": "DataStructure_Tree",
+"language": "GDScript",
+"path": "res://utils/data_structure/tree.gd"
+}, {
+"base": "HBoxContainer",
+"class": "Vec2Control",
+"language": "GDScript",
+"path": "res://utils/vec2_control/vec2_control.gd"
+}, {
+"base": "GraphNode",
+"class": "XGraphNode",
+"language": "GDScript",
+"path": "res://graph/nodes/x_graph_node/XGraphNode.gd"
+} ]
+_global_script_class_icons={
+"DataStructure_Tree": "",
+"Vec2Control": "res://utils/vec2_control/icon.svg",
+"XGraphNode": "res://graph/nodes/x_graph_node/x_graph_node_icon.svg"
+}
+
+[application]
+
+config/name="Terraformation"
+run/main_scene="res://main_window/MainWindow.tscn"
+run/low_processor_mode=true
+
+[display]
+
+window/size/test_width=800
+window/size/test_height=600

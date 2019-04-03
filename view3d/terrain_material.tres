@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=2]
+
+[ext_resource path="res://view3d/triplanar_shader.shader" type="Shader" id=1]
+[ext_resource path="res://textures/Kattelox Island/Kattelox Island 5.png" type="Texture" id=2]
+
+[resource]
+shader = ExtResource( 1 )
+shader_param/terrain_size = 100
+shader_param/terrain_height = 16.41
+shader_param/terrain_subdivisions = 100
+shader_param/triplanar_scale = 6.0
+shader_param/triplanar_blending = 0.15
+shader_param/heightmap = ExtResource( 2 )
