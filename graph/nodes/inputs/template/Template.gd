@@ -9,7 +9,7 @@ var _input = null
 
 
 #warning-ignore:unused_argument
-func get_slot_value(slot: int) -> Object:
+func get_port_value(port: int) -> Object:
     return _viewport.get_texture()
 
 
@@ -27,13 +27,13 @@ func _apply_changes() -> void:
 
 
 #warning-ignore:unused_argument
-func _input_disconnected(slot: int) -> void:
+func _input_disconnected(port: int) -> void:
     _input = null
     _apply_changes()
 
 
 #warning-ignore:unused_argument
-func _on_input_changed(slot: int, value: Object = null) -> void:
+func _input_changed(port: int, value: Object = null) -> void:
     _input = value
     _apply_changes()
 

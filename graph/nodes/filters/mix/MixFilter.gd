@@ -11,7 +11,7 @@ var _input_b = null
 
 
 #warning-ignore:unused_argument
-func get_slot_value(slot: int) -> Object:
+func get_port_value(port: int) -> Object:
     return _viewport.get_texture()
 
 
@@ -33,20 +33,19 @@ func _apply_changes() -> void:
 
 
 #warning-ignore:unused_argument
-func _input_disconnected(slot: int) -> void:
-    if slot == 0:
+func _input_disconnected(port: int) -> void:
+    if port == 0:
         _input_a = null
-    if slot == 1:
+    if port == 1:
         _input_b = null
     _apply_changes()
 
 
 #warning-ignore:unused_argument
-func _on_input_changed(slot: int, value: Object = null) -> void:
-    print("selot ", slot)
-    if slot == 0:
+func _input_changed(port: int, value: Object = null) -> void:
+    if port == 0:
         _input_a = value
-    if slot == 1:
+    elif port == 1:
         _input_b = value
     _apply_changes()
 

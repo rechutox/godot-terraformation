@@ -1,23 +1,16 @@
 extends GraphNode
 class_name XGraphNode, "./x_graph_node_icon.svg"
 
-signal output_changed(slot, value)
+signal output_changed(from, from_port, value)
 
 var SHADER_WAIT_TIME := 0.1
 
-"""
-TODO
-The node will send a signal with port_changed to the GraphEdit
-and it will call _on_input_changed() on every connected
-node with from_port = port_changed
-"""
 
-
-# Retuns the slot return value.
+# Retuns the port return value.
 # Usually this will be:
 # return $viewport.get_texture()
 #warning-ignore:unused_argument
-func get_slot_value(slot: int) -> Object:
+func get_port_value(port: int) -> Object:
     assert(false)
     return null
 
@@ -41,6 +34,7 @@ func _apply_changes() -> void:
     yield(_wait_for_shader(), "completed")
     _notify_changes()
 
+
 # Utility to connect several control to it
 # You can leave it and fetch the control values in _apply_changes()
 # or do other things and cache the values.
@@ -53,33 +47,37 @@ func _on_control_value_changed(value: Object, control: Node = null) -> void:
 
 # Implement this!
 # Matching function with the output_changed signal
-# Basically, you check what slot has changed and do something
+# Basically, you check what port has changed and do something
 # with the value. You probably need to cache the value here
-# and use it in _apply_cahnges().
+# and use it in _apply_changes().
 #warning-ignore:unused_argument
-func _on_input_changed(slot: int, value: Object = null) -> void:
+func _input_changed(port: int, value: Object = null) -> void:
     _apply_changes()
 
 
-# This will be called when a slot is disconected.
+
+# This will be called when a port is disconected.
 # This is used to update the node and the children.
 # You can leave it as it for root type nodes.
 #warning-ignore:unused_argument
-func _input_disconnected(slot: int) -> void:
+func _input_disconnected(port: int) -> void:
     _apply_changes()
 
+
 # This will be called when a new connection is created on an
-# output slot. This is used to update the connected node.
+# output port. This is used to update the connected node.
 # You can leave it as it.
 #warning-ignore:unused_argument
-func _output_connected(slot: int) -> void:
-    _notify_changes(slot, get_slot_value(slot))
+func _output_connected(port: int) -> void:
+    _notify_changes(port, get_port_value(port))
+
 
 # This helper emit the signal to update the connected node
-# on the specified slot
-func _notify_changes(slot: int = 0, value: Object = null) -> void:
-    if value == null: value = get_slot_value(slot)
-    emit_signal("output_changed", slot, value)
+# on the specified port
+func _notify_changes(port: int = 0, value: Object = null) -> void:
+    if value == null: value = get_port_value(port)
+    emit_signal("output_changed", name, port, value)
+
 
 # This must update the viewport.
 # Usually for performance reasons, the viewport will be configured with
@@ -89,7 +87,7 @@ func _notify_changes(slot: int = 0, value: Object = null) -> void:
 # This will trigger the rendering in the shader and update the
 # preview viewport_texture.
 func _update_viewport() -> void:
-    assert(false)
+    return
 
 
 # Utility to wait for the shader to update the texture.

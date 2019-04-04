@@ -11,8 +11,9 @@ var _ext_filters = [
     "*.jpg;JPG Image",
 ]
 
+
 #warning-ignore:unused_argument
-func get_slot_value(slot: int):
+func get_port_value(port: int):
     return _texture
 
 

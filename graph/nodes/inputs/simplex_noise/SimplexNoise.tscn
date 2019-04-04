@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://default_theme.tres" type="Theme" id=1]
 [ext_resource path="res://graph/nodes/inputs/simplex_noise/SimplexNoise.gd" type="Script" id=2]
 [ext_resource path="res://graph/nodes/inputs/simplex_noise/simplex_noise_shader.shader" type="Shader" id=3]
-[ext_resource path="res://utils/vec2_control/vec2_control.gd" type="Script" id=4]
+[ext_resource path="res://utils/foldout/Foldout.tscn" type="PackedScene" id=4]
+[ext_resource path="res://utils/vec2_control/vec2_control.gd" type="Script" id=5]
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 3 )
@@ -14,12 +15,12 @@ shader_param/iOffset = Vector2( 0, 0 )
 viewport_path = NodePath("Viewport")
 
 [node name="Simplex Noise" type="GraphNode" groups=[
-"nodes",
 "input_nodes",
+"nodes",
 ]]
 margin_top = -1.0
-margin_right = 262.0
-margin_bottom = 383.0
+margin_right = 251.0
+margin_bottom = 396.0
 size_flags_horizontal = 9
 size_flags_vertical = 9
 theme = ExtResource( 1 )
@@ -40,9 +41,15 @@ slot/1/right_color = Color( 1, 1, 1, 1 )
 slot/2/left_enabled = false
 slot/2/left_type = 0
 slot/2/left_color = Color( 1, 1, 1, 1 )
-slot/2/right_enabled = true
+slot/2/right_enabled = false
 slot/2/right_type = 0
 slot/2/right_color = Color( 1, 1, 1, 1 )
+slot/3/left_enabled = false
+slot/3/left_type = 0
+slot/3/left_color = Color( 1, 1, 1, 1 )
+slot/3/right_enabled = true
+slot/3/right_type = 0
+slot/3/right_color = Color( 1, 1, 1, 1 )
 script = ExtResource( 2 )
 
 [node name="Viewport" type="Viewport" parent="."]
@@ -63,24 +70,51 @@ mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Grid" type="GridContainer" parent="."]
+[node name="MarginDoNotTouch" type="MarginContainer" parent="."]
 margin_left = 22.0
 margin_top = 30.0
-margin_right = 240.0
-margin_bottom = 120.0
+margin_right = 229.0
+margin_bottom = 31.0
+custom_constants/margin_top = 1
+custom_constants/margin_left = 0
+
+[node name="PreviewFoldout" parent="." instance=ExtResource( 4 )]
+margin_left = 22.0
+margin_top = 31.0
+margin_right = 229.0
+margin_bottom = 265.0
+title = "Preview"
+is_folded = false
+
+[node name="Preview" type="TextureRect" parent="PreviewFoldout"]
+margin_top = 34.0
+margin_right = 207.0
+margin_bottom = 234.0
+rect_min_size = Vector2( 200, 200 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource( 2 )
+expand = true
+stretch_mode = 6
+
+[node name="Grid" type="GridContainer" parent="."]
+margin_left = 22.0
+margin_top = 285.0
+margin_right = 229.0
+margin_bottom = 343.0
 custom_constants/vseparation = 10
 custom_constants/hseparation = 10
 columns = 2
 
 [node name="Label" type="Label" parent="Grid"]
 margin_top = 5.0
-margin_right = 50.0
+margin_right = 39.0
 margin_bottom = 19.0
 text = "Scale"
 
 [node name="ScaleControl" type="SpinBox" parent="Grid"]
-margin_left = 60.0
-margin_right = 218.0
+margin_left = 49.0
+margin_right = 207.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 min_value = 0.01
@@ -93,17 +127,17 @@ align = 2
 
 [node name="Label2" type="Label" parent="Grid"]
 margin_top = 39.0
-margin_right = 50.0
+margin_right = 39.0
 margin_bottom = 53.0
 text = "Offset"
 
 [node name="OffsetControl" type="HBoxContainer" parent="Grid"]
 editor/display_folded = true
-margin_left = 60.0
+margin_left = 49.0
 margin_top = 34.0
-margin_right = 218.0
+margin_right = 207.0
 margin_bottom = 58.0
-script = ExtResource( 4 )
+script = ExtResource( 5 )
 x_control_node = NodePath("../OffsetControl/OffsetXControl")
 y_control_node = NodePath("../OffsetControl/OffsetYControl")
 
@@ -130,58 +164,21 @@ allow_greater = true
 allow_lesser = true
 align = 2
 
-[node name="Label3" type="Label" parent="Grid"]
-margin_top = 72.0
-margin_right = 50.0
-margin_bottom = 86.0
-size_flags_horizontal = 3
-text = "Preview"
-
-[node name="PreviewToggleButton" type="Button" parent="Grid"]
-margin_left = 60.0
-margin_top = 68.0
-margin_right = 218.0
-margin_bottom = 90.0
-size_flags_horizontal = 3
-toggle_mode = true
-pressed = true
-text = "Toggle"
-
-[node name="PreviewMargin" type="MarginContainer" parent="."]
-margin_left = 22.0
-margin_top = 120.0
-margin_right = 240.0
-margin_bottom = 330.0
-custom_constants/margin_right = 0
-custom_constants/margin_top = 10
-custom_constants/margin_left = 0
-
-[node name="Preview" type="TextureRect" parent="PreviewMargin"]
-margin_top = 10.0
-margin_right = 218.0
-margin_bottom = 210.0
-rect_min_size = Vector2( 200, 200 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = SubResource( 2 )
-expand = true
-stretch_mode = 6
-
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 editor/display_folded = true
 margin_left = 22.0
-margin_top = 350.0
-margin_right = 240.0
-margin_bottom = 364.0
+margin_top = 363.0
+margin_right = 229.0
+margin_bottom = 377.0
 
 [node name="Label" type="Label" parent="HBoxContainer"]
-margin_right = 104.0
+margin_right = 98.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Label2" type="Label" parent="HBoxContainer"]
-margin_left = 114.0
-margin_right = 218.0
+margin_left = 108.0
+margin_right = 207.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Output"

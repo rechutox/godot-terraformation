@@ -2,7 +2,6 @@ extends XGraphNode
 
 onready var _viewport = $Viewport
 onready var _texture = $Viewport/Texture
-onready var _preview = $PreviewMargin/Preview
 
 onready var _type_control = $Grid/TypeControl
 onready var _scale_control = $Grid/ScaleControl
@@ -15,7 +14,7 @@ var _shader = preload("./cellular_noise_shader.shader")
 
 
 #warning-ignore:unused_argument
-func get_slot_value(slot: int):
+func get_port_value(port: int):
     return _viewport.get_texture()
 
 
@@ -41,8 +40,7 @@ func load_data(data: Dictionary) -> void:
 
 
 func _ready() -> void:
-    var preview_toggle_control = $Grid/PreviewToggleButton
-    preview_toggle_control.connect("toggled", self, "_preview_toggled")
+    $PreviewFoldout.connect("fold_changed", self, "_on_foldout_changed")
     _type_control.connect("value_changed", self, "_on_control_value_changed")
     _scale_control.connect("value_changed", self, "_on_control_value_changed")
     _params_control.connect("value_changed", self, "_on_control_value_changed")
@@ -64,11 +62,7 @@ func _apply_changes():
     _notify_changes()
 
 
-func _preview_toggled(state):
-    if state:
-        $PreviewMargin.add_child(_preview)
-    else:
-        $PreviewMargin.remove_child(_preview)
+func _on_foldout_changed(state):
     rect_size.y = 0
 
 

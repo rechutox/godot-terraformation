@@ -20,6 +20,7 @@ var _nodes := {}
 var _popup_offset := Vector2()
 var _view3d
 
+
 func _ready() -> void:
     _view3d = get_node(view3d_node)
     _populate_popup_menu()
@@ -45,14 +46,40 @@ func _populate_popup_menu():
             index += 1
 
 
-func _on_disconnection_requested(from: String, from_slot: int, to: String, to_slot: int) -> void:
-    disconnect_node(from, from_slot, to, to_slot)
+func _on_connection_requested(from: String, from_slot: int, to: String, to_slot: int) -> void:
+    add_connection(from, from_slot, to, to_slot)
+
+
+func _on_disconnection_requested(from: String, from_port: int, to: String, to_port: int) -> void:
+    remove_connection(from, from_port, to, to_port)
+
+
+func add_connection(from: String, from_port: int, to: String, to_port: int) -> void:
+    var err = connect_node(from, from_port, to, to_port)
+    if err == OK:
+        var node_from = get_node(from) as XGraphNode
+        node_from._output_connected(from_port)
+
+
+func remove_connection(from: String, from_port: int, to: String, to_port: int) -> void:
+    disconnect_node(from, from_port, to, to_port)
     var node_from = get_node(from) as XGraphNode
     var node_to = get_node(to) as XGraphNode
-    # check if is last connection
-    if not node_has_connection_to(from, to):
-        node_from.disconnect("output_changed", node_to, "_on_input_changed")
-    node_to._input_disconnected(to_slot)
+    node_to._input_disconnected(to_port)
+
+
+func add_node(node: XGraphNode) -> void:
+    add_child(node, true)
+    node.set_owner(self)
+    node.connect("output_changed", self, "_on_node_output_changed")
+    node.connect("close_request", self, "_on_close_node_requested", [node])
+
+
+func remove_node(node: XGraphNode) -> void:
+    for conn in get_connection_list():
+        if conn.from == node.name:
+            disconnect_node(conn.from, conn.from_port, conn.to, conn.to_port)
+    node.queue_free()
 
 
 func node_has_connection_to(from: String, to: String) -> bool:
@@ -63,21 +90,20 @@ func node_has_connection_to(from: String, to: String) -> bool:
     return false
 
 
-func _on_connection_requested(from: String, from_slot: int, to: String, to_slot: int) -> void:
-    add_connection(from, from_slot, to, to_slot)
+func clear_nodes() -> void:
+    clear_connections()
+    for child in get_children():
+        var node = child as XGraphNode
+        if node != null:
+            node.free()
 
 
-func _open_popup(pos: Vector2) -> void:
-    _popup_offset = get_local_mouse_position()
-    $PopupMenu.rect_position = pos
-    $PopupMenu.popup()
-
-
-func _popup_id_pressed(id: int) -> void:
-    var node = _nodes[id].instance() as XGraphNode
-    if node != null:
-        add_node(node)
-        node.offset = _popup_offset + scroll_offset
+func _on_node_output_changed(from, from_port, value):
+    for conn in get_connection_list():
+        if conn.from == from:
+            if conn.from_port == from_port:
+                var node_to = get_node(conn.to)
+                node_to._input_changed(conn.to_port, value)
 
 
 func _file_menu_id_pressed(id: int) -> void:
@@ -88,37 +114,9 @@ func _file_menu_id_pressed(id: int) -> void:
             load_project()
 
 
-func _on_preview3d_output_changed(slot, texture):
+func _on_preview3d_output_changed(from, from_port, texture):
     _view3d.set_heightmap(texture)
 
-
-func add_node(node: XGraphNode) -> void:
-    add_child(node, true)
-    node.connect("close_request", self, "_on_close_node_requested", [node])
-    node.set_owner(self)
-
-var _cache = {}
-
-func add_connection(from: String, from_port: int, to: String, to_port: int) -> void:
-    var err = connect_node(from, from_port, to, to_port)
-    if err == OK:
-        var node_from = get_node(from) as XGraphNode
-        var node_to = get_node(to) as XGraphNode
-        if not from in _cache:
-            _cache[from] = {}
-        if not from_port in _cache[from]:
-            _cache[from][from_port] = {}
-        if not to in _cache[from][from_port]:
-            _cache[from][from_port][to] = []
-        _cache[from][from_port][to].append(to_port)
-        node_from.connect("output_changed", self, "_on_node_output_changed")
-        #node_from._output_connected(from_port)
-
-func _on_node_output_changed(from, from_port, value):
-    for to in _cache[from][from_port]:
-        var node_to = get_node(to) as XGraphNode
-        node_to._input_changed(from_port, value)
-    pass
 
 func save_project() -> void:
     print("Saving...")
@@ -210,14 +208,18 @@ func load_project() -> void:
     print("Loaded!")
 
 
-func clear_nodes() -> void:
-    clear_connections()
-    for child in get_children():
-        var node = child as XGraphNode
-        if node != null:
-            node.free()
+func _open_popup(pos: Vector2) -> void:
+    _popup_offset = get_local_mouse_position()
+    $PopupMenu.rect_position = pos
+    $PopupMenu.popup()
+
+
+func _popup_id_pressed(id: int) -> void:
+    var node = _nodes[id].instance() as XGraphNode
+    if node != null:
+        add_node(node)
+        node.offset = _popup_offset + scroll_offset
 
 
 func _on_close_node_requested(node: XGraphNode) -> void:
-    node.queue_free()
-    update()
+    remove_node(node)
