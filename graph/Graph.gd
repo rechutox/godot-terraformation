@@ -11,6 +11,7 @@ var _available_nodes = {
         "res://graph/nodes/inputs/cellular_noise/CellularNoise.tscn",
     ],
     Filters = [
+        "res://graph/nodes/filters/blend/Filter.tscn",
         "res://graph/nodes/filters/mix/Filter.tscn",
         "res://graph/nodes/filters/add/Filter.tscn",
         "res://graph/nodes/filters/adjust/Filter.tscn",

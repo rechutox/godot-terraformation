@@ -5,7 +5,7 @@ onready var _texture = $Viewport/Texture
 onready var _blend_control = $Grid/BlendControl
 
 var _material := ShaderMaterial.new()
-var _shader := preload("./MixFilter.shader")
+var _shader := preload("./Filter.shader")
 var _input_a = null
 var _input_b = null
 
