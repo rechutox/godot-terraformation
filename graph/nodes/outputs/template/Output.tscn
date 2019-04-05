@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://default_theme.tres" type="Theme" id=1]
-[ext_resource path="res://graph/nodes/outputs/template/Template.gd" type="Script" id=2]
-[ext_resource path="res://graph/nodes/outputs/template/TemplateShader.shader" type="Shader" id=3]
+[ext_resource path="res://graph/nodes/outputs/template/Output.gd" type="Script" id=2]
+[ext_resource path="res://graph/nodes/outputs/template/Output.shader" type="Shader" id=3]
 [ext_resource path="res://icon.png" type="Texture" id=4]
 [ext_resource path="res://utils/foldout/Foldout.tscn" type="PackedScene" id=5]
 
@@ -45,7 +45,7 @@ slot/2/right_color = Color( 1, 1, 1, 1 )
 slot/3/left_enabled = true
 slot/3/left_type = 0
 slot/3/left_color = Color( 1, 1, 1, 1 )
-slot/3/right_enabled = true
+slot/3/right_enabled = false
 slot/3/right_type = 0
 slot/3/right_color = Color( 1, 1, 1, 1 )
 script = ExtResource( 2 )
@@ -111,7 +111,6 @@ margin_bottom = 24.0
 size_flags_horizontal = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-editor/display_folded = true
 margin_left = 22.0
 margin_top = 329.0
 margin_right = 222.0
@@ -128,5 +127,4 @@ margin_left = 105.0
 margin_right = 200.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
-text = "Output"
 align = 2

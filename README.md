@@ -3,6 +3,8 @@
 Visual node-based heightmap generator. Uses the GPU to create different kind of noise and apply effects to heightmaps.
 Has a 3D view that updates in realtime.
 
+At the end you can use an export node to save the texture to a PNG file.
+
 Made with Godot Engine. Use the latest unofficial builds to run the project.
 
 ## Why?
@@ -13,8 +15,7 @@ So I took the project to challenge myself and return something to the open-sourc
 
 ## TODO
 
-For now, more nodes to further process the heightmap and the output node to export the heightmap...
-It's a little usseless now, sorry. I'll be right back 😂.
+For now, more nodes to further process the heightmap.
 
 Loading and saving projects.
 

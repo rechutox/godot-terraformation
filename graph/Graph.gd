@@ -21,7 +21,10 @@ var _available_nodes = {
         "res://graph/nodes/filters/mask/Filter.tscn",
         "res://graph/nodes/filters/flatten_area/Filter.tscn",
         "res://graph/nodes/filters/select_height/Filter.tscn",
-    ]
+    ],
+    Outputs = [
+        "res://graph/nodes/outputs/export_image/Output.tscn",
+    ],
    }
 
 var _nodes := {}

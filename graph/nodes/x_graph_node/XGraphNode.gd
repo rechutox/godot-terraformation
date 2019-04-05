@@ -11,7 +11,6 @@ var SHADER_WAIT_TIME := 0.1
 # return $viewport.get_texture()
 #warning-ignore:unused_argument
 func get_port_value(port: int) -> Object:
-    assert(false)
     return null
 
 
