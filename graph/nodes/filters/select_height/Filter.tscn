@@ -1,0 +1,223 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://default_theme.tres" type="Theme" id=1]
+[ext_resource path="res://graph/nodes/filters/select_height/Filter.gd" type="Script" id=2]
+[ext_resource path="res://graph/nodes/filters/select_height/Filter.shader" type="Shader" id=3]
+[ext_resource path="res://textures/gradient.png" type="Texture" id=4]
+[ext_resource path="res://utils/foldout/Foldout.tscn" type="PackedScene" id=5]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 3 )
+shader_param/iMinHeight = 0.41
+shader_param/iMaxHeight = 0.56
+shader_param/iFalloffMin = 0.14
+shader_param/iFalloffMax = 0.11
+shader_param/iFalloffMinExp = 1.0
+shader_param/iFalloffMaxExp = 1.0
+shader_param/iTexture = ExtResource( 4 )
+
+[sub_resource type="ViewportTexture" id=2]
+viewport_path = NodePath("Viewport")
+
+[node name="Select Height Filter" type="GraphNode" groups=[
+"filter_nodes",
+"nodes",
+]]
+margin_right = 244.0
+margin_bottom = 533.0
+size_flags_horizontal = 9
+size_flags_vertical = 9
+theme = ExtResource( 1 )
+title = "Select Height Filter"
+show_close = true
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color( 1, 1, 1, 1 )
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color( 1, 1, 1, 1 )
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color( 1, 1, 1, 1 )
+slot/1/right_enabled = false
+slot/1/right_type = 0
+slot/1/right_color = Color( 1, 1, 1, 1 )
+slot/2/left_enabled = false
+slot/2/left_type = 0
+slot/2/left_color = Color( 1, 1, 1, 1 )
+slot/2/right_enabled = false
+slot/2/right_type = 0
+slot/2/right_color = Color( 1, 1, 1, 1 )
+slot/3/left_enabled = true
+slot/3/left_type = 0
+slot/3/left_color = Color( 1, 1, 1, 1 )
+slot/3/right_enabled = true
+slot/3/right_type = 0
+slot/3/right_color = Color( 1, 1, 1, 1 )
+script = ExtResource( 2 )
+
+[node name="MarginDoNotTouch" type="MarginContainer" parent="."]
+margin_left = 22.0
+margin_top = 30.0
+margin_right = 222.0
+margin_bottom = 31.0
+custom_constants/margin_top = 1
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 2048, 2048 )
+hdr = false
+disable_3d = true
+keep_3d_linear = true
+usage = 0
+render_target_v_flip = true
+gui_disable_input = true
+
+[node name="Texture" type="ColorRect" parent="Viewport"]
+material = SubResource( 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="PreviewFoldout" parent="." instance=ExtResource( 5 )]
+margin_left = 22.0
+margin_top = 31.0
+margin_right = 222.0
+margin_bottom = 265.0
+title = "Preview"
+is_folded = false
+
+[node name="Preview" type="TextureRect" parent="PreviewFoldout"]
+margin_top = 34.0
+margin_right = 200.0
+margin_bottom = 234.0
+rect_min_size = Vector2( 200, 200 )
+texture = SubResource( 2 )
+expand = true
+stretch_mode = 6
+
+[node name="Grid" type="GridContainer" parent="."]
+editor/display_folded = true
+margin_left = 22.0
+margin_top = 285.0
+margin_right = 222.0
+margin_bottom = 479.0
+custom_constants/vseparation = 10
+custom_constants/hseparation = 10
+columns = 2
+
+[node name="ControlLabel" type="Label" parent="Grid"]
+margin_top = 5.0
+margin_right = 94.0
+margin_bottom = 19.0
+text = "Min Height"
+
+[node name="InputControl" type="SpinBox" parent="Grid"]
+margin_left = 104.0
+margin_right = 200.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 0.1
+
+[node name="ControlLabel_2" type="Label" parent="Grid"]
+margin_top = 39.0
+margin_right = 94.0
+margin_bottom = 53.0
+text = "Max Height"
+
+[node name="InputControl_2" type="SpinBox" parent="Grid"]
+margin_left = 104.0
+margin_top = 34.0
+margin_right = 200.0
+margin_bottom = 58.0
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 0.9
+
+[node name="ControlLabel_3" type="Label" parent="Grid"]
+margin_top = 73.0
+margin_right = 94.0
+margin_bottom = 87.0
+text = "Falloff Min"
+
+[node name="InputControl_3" type="SpinBox" parent="Grid"]
+margin_left = 104.0
+margin_top = 68.0
+margin_right = 200.0
+margin_bottom = 92.0
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 0.1
+
+[node name="ControlLabel_4" type="Label" parent="Grid"]
+margin_top = 107.0
+margin_right = 94.0
+margin_bottom = 121.0
+text = "Falloff Max"
+
+[node name="InputControl_4" type="SpinBox" parent="Grid"]
+margin_left = 104.0
+margin_top = 102.0
+margin_right = 200.0
+margin_bottom = 126.0
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 0.1
+
+[node name="ControlLabel_5" type="Label" parent="Grid"]
+margin_top = 141.0
+margin_right = 94.0
+margin_bottom = 155.0
+text = "Falloff Min exp"
+
+[node name="InputControl_5" type="SpinBox" parent="Grid"]
+margin_left = 104.0
+margin_top = 136.0
+margin_right = 200.0
+margin_bottom = 160.0
+size_flags_horizontal = 3
+max_value = 9000.0
+step = 0.01
+value = 1.0
+
+[node name="ControlLabel_6" type="Label" parent="Grid"]
+margin_top = 175.0
+margin_right = 94.0
+margin_bottom = 189.0
+text = "Falloff Max Exp"
+
+[node name="InputControl_6" type="SpinBox" parent="Grid"]
+margin_left = 104.0
+margin_top = 170.0
+margin_right = 200.0
+margin_bottom = 194.0
+size_flags_horizontal = 3
+max_value = 9000.0
+step = 0.01
+value = 1.0
+allow_greater = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+editor/display_folded = true
+margin_left = 22.0
+margin_top = 499.0
+margin_right = 222.0
+margin_bottom = 513.0
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+margin_right = 95.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Input"
+
+[node name="Label2" type="Label" parent="HBoxContainer"]
+margin_left = 105.0
+margin_right = 200.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Output"
+align = 2

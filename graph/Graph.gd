@@ -11,8 +11,15 @@ var _available_nodes = {
         "res://graph/nodes/inputs/cellular_noise/CellularNoise.tscn",
     ],
     Filters = [
-        "res://graph/nodes/filters/template/FilterTemplate.tscn",
-        "res://graph/nodes/filters/mix/MixFilter.tscn",
+        "res://graph/nodes/filters/mix/Filter.tscn",
+        "res://graph/nodes/filters/add/Filter.tscn",
+        "res://graph/nodes/filters/adjust/Filter.tscn",
+        "res://graph/nodes/filters/curve/Filter.tscn",
+        "res://graph/nodes/filters/blur/Filter.tscn",
+        "res://graph/nodes/filters/invert/Filter.tscn",
+        "res://graph/nodes/filters/mask/Filter.tscn",
+        "res://graph/nodes/filters/flatten_area/Filter.tscn",
+        "res://graph/nodes/filters/select_height/Filter.tscn",
     ]
    }
 
