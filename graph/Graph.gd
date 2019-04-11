@@ -2,18 +2,15 @@ extends GraphEdit
 
 export(NodePath) var view3d_node
 
-onready var _preview3d_output = $Preview3D
 
 var _available_nodes = {
     Inputs = [
-        "res://graph/nodes/inputs/image_file/ImageFile.tscn",
-        "res://graph/nodes/inputs/simplex_noise/SimplexNoise.tscn",
-        "res://graph/nodes/inputs/cellular_noise/CellularNoise.tscn",
+        "res://graph/nodes/inputs/image_file/Input.tscn",
+        "res://graph/nodes/inputs/simplex_noise/Input.tscn",
+        "res://graph/nodes/inputs/cellular_noise/Input.tscn",
     ],
     Filters = [
         "res://graph/nodes/filters/blend/Filter.tscn",
-        "res://graph/nodes/filters/mix/Filter.tscn",
-        "res://graph/nodes/filters/add/Filter.tscn",
         "res://graph/nodes/filters/adjust/Filter.tscn",
         "res://graph/nodes/filters/curve/Filter.tscn",
         "res://graph/nodes/filters/blur/Filter.tscn",
@@ -38,9 +35,9 @@ func _ready() -> void:
     connect("popup_request", self, "_open_popup")
     connect("connection_request", self, "_on_connection_requested")
     connect("disconnection_request", self, "_on_disconnection_requested")
-    _preview3d_output.connect("output_changed", self, "_on_preview3d_output_changed")
+    $Preview3D.connect("output_changed", self, "_on_preview3d_output_changed")
+    $Preview3D.offset = rect_size * 0.5
     $PopupMenu.connect("id_pressed", self, "_popup_id_pressed")
-    $Toolbar/FileMenuButton.get_popup().connect("id_pressed", self, "_file_menu_id_pressed")
 
 
 func _populate_popup_menu():
@@ -117,29 +114,28 @@ func _on_node_output_changed(from, from_port, value):
                 node_to._input_changed(conn.to_port, value)
 
 
-func _file_menu_id_pressed(id: int) -> void:
-    match id:
-        0:
-            save_project()
-        1:
-            load_project()
-
-
 func _on_preview3d_output_changed(from, from_port, texture):
     _view3d.set_heightmap(texture)
 
 
-func save_project() -> void:
-    print("Saving...")
+func _open_popup(pos: Vector2) -> void:
+    _popup_offset = get_local_mouse_position()
+    $PopupMenu.rect_position = pos
+    $PopupMenu.popup()
 
-    var dir = Directory.new()
-    if !dir.dir_exists("user://projects"):
-        dir.open("user://")
-        dir.make_dir("user://projects")
 
-    var file = File.new()
-    file.open("user://projects/save_test.project", File.WRITE)
+func _popup_id_pressed(id: int) -> void:
+    var node = _nodes[id].instance() as XGraphNode
+    if node != null:
+        add_node(node)
+        node.offset = _popup_offset + scroll_offset
 
+
+func _on_close_node_requested(node: XGraphNode) -> void:
+    remove_node(node)
+
+
+func get_data_dict() -> Dictionary:
     var data = {}
 
     data.scroll_offset = var2str(scroll_offset)
@@ -158,28 +154,12 @@ func save_project() -> void:
             node_data.config = node.get_data_dict()
             data.nodes[node.name] = node_data
 
-    file.store_string(JSON.print(data, " "))
-
-    print("Saved!")
+    return data
 
 
-func load_project() -> void:
-    print("Loading...")
-
-    var file = File.new()
-    var err = file.open("user://projects/save_test.project", File.READ)
-    if err != OK:
-        push_error("Can't open the file: %.0f" % err)
-        return
-
-    var parse_result = JSON.parse(file.get_as_text())
-    if parse_result.error != OK:
-        push_error(parse_result.error_string)
-        return
-
+func load_data(data: Dictionary) -> void:
     clear_nodes()
 
-    var data = parse_result.result
     scroll_offset = str2var(data.scroll_offset)
     zoom = data.zoom
     use_snap = data.use_snap
@@ -216,21 +196,5 @@ func load_project() -> void:
             instanced_nodes[node_name] = node
             add_node(node)
 
-    print("Loaded!")
-
-
-func _open_popup(pos: Vector2) -> void:
-    _popup_offset = get_local_mouse_position()
-    $PopupMenu.rect_position = pos
-    $PopupMenu.popup()
-
-
-func _popup_id_pressed(id: int) -> void:
-    var node = _nodes[id].instance() as XGraphNode
-    if node != null:
-        add_node(node)
-        node.offset = _popup_offset + scroll_offset
-
-
-func _on_close_node_requested(node: XGraphNode) -> void:
-    remove_node(node)
+    # Connect the preview3d output node
+    $Preview3D.connect("output_changed", self, "_on_preview3d_output_changed")

@@ -63,3 +63,27 @@ func _update_viewport() -> void:
 
 func _on_foldout_changed(state):
     rect_size.y = 0
+
+
+func get_data_dict() -> Dictionary:
+    return {
+        node_offset = var2str(offset),
+        preview_folded = $PreviewFoldout.is_folded,
+        param1 = _control1.value,
+        param2 = _control2.value,
+        param3 = _control3.value,
+        param4 = _control4.value,
+        param5 = _control5.value,
+        param6 = _control6.value,
+       }
+
+
+func load_data(data: Dictionary) -> void:
+    offset = str2var(data.node_offset)
+    $PreviewFoldout.is_folded = data.preview_folded
+    _control1.value = data.param1
+    _control2.value = data.param2
+    _control3.value = data.param3
+    _control4.value = data.param4
+    _control5.value = data.param5
+    _control6.value = data.param6

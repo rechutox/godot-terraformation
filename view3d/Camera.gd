@@ -23,15 +23,15 @@ func _ready() -> void:
     _zoom = _camera.translation.z
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
     if event is InputEventMouse:
         var inside = get_viewport().get_visible_rect().has_point(event.global_position)
 
         if event is InputEventMouseButton:
             if inside and event.pressed:
+                _mouse_captured = true
                 _last_mouse_pos = get_tree().root.get_mouse_position()
                 Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-                _mouse_captured = true
             else:
                 if _mouse_captured:
                     Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

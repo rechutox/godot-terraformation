@@ -1,0 +1,96 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://default_theme.tres" type="Theme" id=1]
+[ext_resource path="res://graph/nodes/inputs/image_file/Input.gd" type="Script" id=2]
+[ext_resource path="res://utils/foldout/Foldout.tscn" type="PackedScene" id=3]
+[ext_resource path="res://icon.png" type="Texture" id=4]
+
+
+[node name="Image File" type="GraphNode" groups=[
+"nodes",
+"input_nodes",
+]]
+margin_right = 244.0
+margin_bottom = 340.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+title = "Image File"
+show_close = true
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color( 1, 1, 1, 1 )
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color( 1, 1, 1, 1 )
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color( 1, 1, 1, 1 )
+slot/1/right_enabled = false
+slot/1/right_type = 0
+slot/1/right_color = Color( 1, 1, 1, 1 )
+slot/2/left_enabled = false
+slot/2/left_type = 0
+slot/2/left_color = Color( 1, 1, 1, 1 )
+slot/2/right_enabled = false
+slot/2/right_type = 0
+slot/2/right_color = Color( 1, 1, 1, 1 )
+slot/3/left_enabled = false
+slot/3/left_type = 0
+slot/3/left_color = Color( 1, 1, 1, 1 )
+slot/3/right_enabled = true
+slot/3/right_type = 0
+slot/3/right_color = Color( 1, 1, 1, 1 )
+script = ExtResource( 2 )
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_left = 22.0
+margin_top = 30.0
+margin_right = 222.0
+margin_bottom = 31.0
+custom_constants/margin_top = 1
+
+[node name="PreviewFoldout" parent="." instance=ExtResource( 3 )]
+margin_left = 22.0
+margin_top = 31.0
+margin_right = 222.0
+margin_bottom = 265.0
+title = "Preview"
+
+[node name="Preview" type="TextureRect" parent="PreviewFoldout"]
+margin_top = 34.0
+margin_right = 200.0
+margin_bottom = 234.0
+rect_min_size = Vector2( 200, 200 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 6
+
+[node name="LoadButton" type="Button" parent="."]
+margin_left = 22.0
+margin_top = 285.0
+margin_right = 222.0
+margin_bottom = 307.0
+text = "Load Image"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+editor/display_folded = true
+margin_left = 22.0
+margin_top = 327.0
+margin_right = 222.0
+margin_bottom = 341.0
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+margin_right = 95.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="HBoxContainer"]
+margin_left = 105.0
+margin_right = 200.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Output"
+align = 2

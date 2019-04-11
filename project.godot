@@ -9,11 +9,6 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Reference",
-"class": "DataStructure_Tree",
-"language": "GDScript",
-"path": "res://utils/data_structure/tree.gd"
-}, {
 "base": "HBoxContainer",
 "class": "Vec2Control",
 "language": "GDScript",
@@ -25,7 +20,6 @@ _global_script_classes=[ {
 "path": "res://graph/nodes/x_graph_node/XGraphNode.gd"
 } ]
 _global_script_class_icons={
-"DataStructure_Tree": "",
 "Vec2Control": "res://utils/vec2_control/icon.svg",
 "XGraphNode": "res://graph/nodes/x_graph_node/x_graph_node_icon.svg"
 }
@@ -36,9 +30,13 @@ config/name="Terraformation"
 run/main_scene="res://main_window/MainWindow.tscn"
 run/low_processor_mode=true
 
+[debug]
+
+gdscript/warnings/enable=false
+
 [display]
 
-window/size/test_width=800
+window/size/test_width=1200
 window/size/test_height=600
 window/dpi/allow_hidpi=true
 window/energy_saving/keep_screen_on=false

@@ -55,7 +55,6 @@ margin_top = 31.0
 margin_right = 222.0
 margin_bottom = 265.0
 title = "Preview"
-is_folded = false
 
 [node name="Preview" type="TextureRect" parent="PreviewFoldout"]
 margin_top = 34.0

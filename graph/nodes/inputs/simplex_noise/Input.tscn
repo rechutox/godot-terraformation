@@ -1,0 +1,188 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://default_theme.tres" type="Theme" id=1]
+[ext_resource path="res://graph/nodes/inputs/simplex_noise/Input.gd" type="Script" id=2]
+[ext_resource path="res://graph/nodes/inputs/simplex_noise/Input.shader" type="Shader" id=3]
+[ext_resource path="res://utils/foldout/Foldout.tscn" type="PackedScene" id=4]
+[ext_resource path="res://utils/vec2_control/vec2_control.gd" type="Script" id=5]
+
+
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 3 )
+shader_param/iScale = 5.0
+shader_param/iOffset = Vector2( 0, 0 )
+
+[sub_resource type="ViewportTexture" id=2]
+viewport_path = NodePath("Viewport")
+
+[node name="Simplex Noise" type="GraphNode" groups=[
+"input_nodes",
+"nodes",
+]]
+margin_top = -1.0
+margin_right = 251.0
+margin_bottom = 396.0
+size_flags_horizontal = 9
+size_flags_vertical = 9
+theme = ExtResource( 1 )
+title = "Simplex Noise"
+show_close = true
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color( 1, 1, 1, 1 )
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color( 1, 1, 1, 1 )
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color( 1, 1, 1, 1 )
+slot/1/right_enabled = false
+slot/1/right_type = 0
+slot/1/right_color = Color( 1, 1, 1, 1 )
+slot/2/left_enabled = false
+slot/2/left_type = 0
+slot/2/left_color = Color( 1, 1, 1, 1 )
+slot/2/right_enabled = false
+slot/2/right_type = 0
+slot/2/right_color = Color( 1, 1, 1, 1 )
+slot/3/left_enabled = false
+slot/3/left_type = 0
+slot/3/left_color = Color( 1, 1, 1, 1 )
+slot/3/right_enabled = true
+slot/3/right_type = 0
+slot/3/right_color = Color( 1, 1, 1, 1 )
+script = ExtResource( 2 )
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 2048, 2048 )
+handle_input_locally = false
+hdr = false
+disable_3d = true
+keep_3d_linear = true
+usage = 0
+render_target_v_flip = true
+render_target_update_mode = 3
+gui_disable_input = true
+
+[node name="Texture" type="ColorRect" parent="Viewport"]
+material = SubResource( 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginDoNotTouch" type="MarginContainer" parent="."]
+margin_left = 22.0
+margin_top = 30.0
+margin_right = 229.0
+margin_bottom = 31.0
+custom_constants/margin_top = 1
+custom_constants/margin_left = 0
+
+[node name="PreviewFoldout" parent="." instance=ExtResource( 4 )]
+margin_left = 22.0
+margin_top = 31.0
+margin_right = 229.0
+margin_bottom = 265.0
+title = "Preview"
+is_folded = false
+
+[node name="Preview" type="TextureRect" parent="PreviewFoldout"]
+margin_top = 34.0
+margin_right = 207.0
+margin_bottom = 234.0
+rect_min_size = Vector2( 200, 200 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource( 2 )
+expand = true
+stretch_mode = 6
+
+[node name="Grid" type="GridContainer" parent="."]
+margin_left = 22.0
+margin_top = 285.0
+margin_right = 229.0
+margin_bottom = 343.0
+custom_constants/vseparation = 10
+custom_constants/hseparation = 10
+columns = 2
+
+[node name="Label" type="Label" parent="Grid"]
+margin_top = 5.0
+margin_right = 39.0
+margin_bottom = 19.0
+text = "Scale"
+
+[node name="ScaleControl" type="SpinBox" parent="Grid"]
+margin_left = 49.0
+margin_right = 207.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+min_value = 0.01
+max_value = 9000.0
+step = 0.01
+value = 5.0
+allow_greater = true
+allow_lesser = true
+align = 2
+
+[node name="Label2" type="Label" parent="Grid"]
+margin_top = 39.0
+margin_right = 39.0
+margin_bottom = 53.0
+text = "Offset"
+
+[node name="OffsetControl" type="HBoxContainer" parent="Grid"]
+editor/display_folded = true
+margin_left = 49.0
+margin_top = 34.0
+margin_right = 207.0
+margin_bottom = 58.0
+script = ExtResource( 5 )
+x_control_node = NodePath("../OffsetControl/OffsetXControl")
+y_control_node = NodePath("../OffsetControl/OffsetYControl")
+
+[node name="OffsetXControl" type="SpinBox" parent="Grid/OffsetControl"]
+margin_right = 74.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+min_value = -9000.0
+max_value = 9000.0
+step = 0.01
+allow_greater = true
+allow_lesser = true
+align = 2
+
+[node name="OffsetYControl" type="SpinBox" parent="Grid/OffsetControl"]
+margin_left = 84.0
+margin_right = 158.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+min_value = -9000.0
+max_value = 9000.0
+step = 0.01
+allow_greater = true
+allow_lesser = true
+align = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+editor/display_folded = true
+margin_left = 22.0
+margin_top = 363.0
+margin_right = 229.0
+margin_bottom = 377.0
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+margin_right = 98.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="HBoxContainer"]
+margin_left = 108.0
+margin_right = 207.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Output"
+align = 2

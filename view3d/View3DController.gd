@@ -1,4 +1,4 @@
-extends Spatial
+extends Node
 
 func set_heightmap(texture: Texture):
     $MeshInstance.material_override.set_shader_param("heightmap", texture)

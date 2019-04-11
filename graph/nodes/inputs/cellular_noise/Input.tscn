@@ -1,0 +1,259 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://default_theme.tres" type="Theme" id=1]
+[ext_resource path="res://graph/nodes/inputs/cellular_noise/Input.gd" type="Script" id=2]
+[ext_resource path="res://graph/nodes/inputs/cellular_noise/Input.shader" type="Shader" id=3]
+[ext_resource path="res://utils/foldout/Foldout.tscn" type="PackedScene" id=4]
+[ext_resource path="res://utils/vec2_control/vec2_control.gd" type="Script" id=5]
+
+
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 3 )
+shader_param/iType = 0
+shader_param/iSeed = 0
+shader_param/iVariant = 0
+shader_param/iScale = 10.0
+shader_param/iOffset = Vector2( 0, 0 )
+shader_param/iParams = Vector2( 1, 1 )
+
+[sub_resource type="ViewportTexture" id=2]
+viewport_path = NodePath("Viewport")
+
+[node name="Cellular Noise" type="GraphNode" groups=[
+"input_nodes",
+"nodes",
+]]
+margin_left = -1.0
+margin_right = 255.0
+margin_bottom = 483.0
+size_flags_horizontal = 9
+size_flags_vertical = 9
+theme = ExtResource( 1 )
+title = "Cellular Noise"
+show_close = true
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color( 1, 1, 1, 1 )
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color( 1, 1, 1, 1 )
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color( 1, 1, 1, 1 )
+slot/1/right_enabled = false
+slot/1/right_type = 0
+slot/1/right_color = Color( 1, 1, 1, 1 )
+slot/2/left_enabled = false
+slot/2/left_type = 0
+slot/2/left_color = Color( 1, 1, 1, 1 )
+slot/2/right_enabled = false
+slot/2/right_type = 0
+slot/2/right_color = Color( 1, 1, 1, 1 )
+slot/3/left_enabled = false
+slot/3/left_type = 0
+slot/3/left_color = Color( 1, 1, 1, 1 )
+slot/3/right_enabled = true
+slot/3/right_type = 0
+slot/3/right_color = Color( 1, 1, 1, 1 )
+script = ExtResource( 2 )
+
+[node name="Viewport" type="Viewport" parent="."]
+editor/display_folded = true
+size = Vector2( 2048, 2048 )
+hdr = false
+disable_3d = true
+keep_3d_linear = true
+usage = 0
+render_target_v_flip = true
+gui_disable_input = true
+
+[node name="Texture" type="ColorRect" parent="Viewport"]
+material = SubResource( 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="MarginDoNotTouch" type="MarginContainer" parent="."]
+margin_left = 22.0
+margin_top = 30.0
+margin_right = 234.0
+margin_bottom = 31.0
+custom_constants/margin_top = 1
+
+[node name="PreviewFoldout" parent="." instance=ExtResource( 4 )]
+editor/display_folded = true
+margin_left = 22.0
+margin_top = 31.0
+margin_right = 234.0
+margin_bottom = 265.0
+title = "Preview"
+is_folded = false
+
+[node name="Preview" type="TextureRect" parent="PreviewFoldout"]
+margin_top = 34.0
+margin_right = 212.0
+margin_bottom = 234.0
+rect_min_size = Vector2( 200, 200 )
+texture = SubResource( 2 )
+expand = true
+stretch_mode = 6
+
+[node name="Grid" type="GridContainer" parent="."]
+editor/display_folded = true
+margin_left = 22.0
+margin_top = 285.0
+margin_right = 234.0
+margin_bottom = 429.0
+custom_constants/vseparation = 10
+custom_constants/hseparation = 10
+columns = 2
+
+[node name="Label" type="Label" parent="Grid"]
+margin_top = 1.0
+margin_right = 44.0
+margin_bottom = 15.0
+text = "Type"
+
+[node name="TypeControl" type="HSlider" parent="Grid"]
+margin_left = 54.0
+margin_right = 212.0
+margin_bottom = 16.0
+max_value = 3.0
+rounded = true
+tick_count = 4
+ticks_on_borders = true
+
+[node name="Label7" type="Label" parent="Grid"]
+margin_top = 27.0
+margin_right = 44.0
+margin_bottom = 41.0
+text = "Variant"
+
+[node name="VariantControl" type="HSlider" parent="Grid"]
+margin_left = 54.0
+margin_top = 26.0
+margin_right = 212.0
+margin_bottom = 42.0
+max_value = 2.0
+rounded = true
+tick_count = 3
+ticks_on_borders = true
+
+[node name="Label5" type="Label" parent="Grid"]
+margin_top = 57.0
+margin_right = 44.0
+margin_bottom = 71.0
+text = "Scale"
+
+[node name="ScaleControl" type="SpinBox" parent="Grid"]
+margin_left = 54.0
+margin_top = 52.0
+margin_right = 212.0
+margin_bottom = 76.0
+min_value = -9000.0
+max_value = 9000.0
+step = 0.01
+value = 10.0
+allow_greater = true
+allow_lesser = true
+align = 2
+
+[node name="Label6" type="Label" parent="Grid"]
+margin_top = 91.0
+margin_right = 44.0
+margin_bottom = 105.0
+text = "Offset"
+
+[node name="OffsetControl" type="HBoxContainer" parent="Grid"]
+editor/display_folded = true
+margin_left = 54.0
+margin_top = 86.0
+margin_right = 212.0
+margin_bottom = 110.0
+script = ExtResource( 5 )
+x_control_node = NodePath("HSlider")
+y_control_node = NodePath("HSlider2")
+
+[node name="HSlider" type="SpinBox" parent="Grid/OffsetControl"]
+margin_right = 74.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+min_value = -9000.0
+max_value = 9000.0
+step = 0.01
+allow_greater = true
+allow_lesser = true
+align = 2
+
+[node name="HSlider2" type="SpinBox" parent="Grid/OffsetControl"]
+margin_left = 84.0
+margin_right = 158.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+min_value = -9000.0
+max_value = 9000.0
+step = 0.01
+allow_greater = true
+allow_lesser = true
+align = 2
+
+[node name="Label3" type="Label" parent="Grid"]
+margin_top = 125.0
+margin_right = 44.0
+margin_bottom = 139.0
+text = "Param"
+
+[node name="ParamControl" type="HBoxContainer" parent="Grid"]
+editor/display_folded = true
+margin_left = 54.0
+margin_top = 120.0
+margin_right = 212.0
+margin_bottom = 144.0
+script = ExtResource( 5 )
+value = Vector2( 1, 1 )
+x_control_node = NodePath("HSlider")
+y_control_node = NodePath("HSlider2")
+
+[node name="HSlider" type="SpinBox" parent="Grid/ParamControl"]
+margin_right = 74.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 1.0
+allow_greater = true
+allow_lesser = true
+align = 2
+
+[node name="HSlider2" type="SpinBox" parent="Grid/ParamControl"]
+margin_left = 84.0
+margin_right = 158.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 1.0
+allow_greater = true
+allow_lesser = true
+align = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+editor/display_folded = true
+margin_left = 22.0
+margin_top = 449.0
+margin_right = 234.0
+margin_bottom = 463.0
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+margin_right = 101.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="HBoxContainer"]
+margin_left = 111.0
+margin_right = 212.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Output"
+align = 2

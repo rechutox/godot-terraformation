@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://graph/Graph.gd" type="Script" id=1]
-[ext_resource path="res://graph/nodes/outputs/preview3d/Preview3D.tscn" type="PackedScene" id=2]
+[ext_resource path="res://graph/nodes/outputs/preview3d/Output.tscn" type="PackedScene" id=2]
 
 [node name="Graph" type="GraphEdit"]
 anchor_right = 1.0
@@ -19,20 +19,6 @@ __meta__ = {
 margin_right = 20.0
 margin_bottom = 20.0
 custom_constants/vseparation = 10
-
-[node name="Toolbar" type="HBoxContainer" parent="."]
-editor/display_folded = true
-anchor_right = 1.0
-margin_left = 228.0
-margin_bottom = 45.0
-mouse_filter = 2
-
-[node name="FileMenuButton" type="MenuButton" parent="Toolbar"]
-margin_right = 35.0
-margin_bottom = 45.0
-text = "File"
-items = [ "Save", null, 0, false, false, 0, 0, null, "", false, "Load", null, 0, false, false, 1, 0, null, "", false ]
-switch_on_hover = true
 
 [node name="Preview3D" parent="." instance=ExtResource( 2 )]
 margin_left = 300.0

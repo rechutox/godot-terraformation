@@ -62,3 +62,17 @@ func _update_viewport() -> void:
 
 func _on_foldout_changed(state):
     rect_size.y = 0
+
+
+func get_data_dict() -> Dictionary:
+    return {
+        node_offset = var2str(offset),
+        preview_folded = $PreviewFoldout.is_folded,
+        param1 = _curve_control.get_data_dict(),
+       }
+
+
+func load_data(data: Dictionary) -> void:
+    offset = str2var(data.node_offset)
+    $PreviewFoldout.is_folded = data.preview_folded
+    _curve_control.load_data(data.param1)

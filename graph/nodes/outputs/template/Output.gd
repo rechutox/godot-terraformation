@@ -32,3 +32,15 @@ func _input_changed(port: int, value: Object = null) -> void:
 
 func _update_viewport() -> void:
     _preview.texture = _input
+
+
+func get_data_dict() -> Dictionary:
+    return {
+        node_offset = var2str(offset),
+        preview_folded = $PreviewFoldout.is_folded,
+       }
+
+
+func load_data(data: Dictionary) -> void:
+    offset = str2var(data.node_offset)
+    $PreviewFoldout.is_folded = data.preview_folded

@@ -5,7 +5,7 @@ onready var _texture = $Viewport/Texture
 onready var _blend_control = $Grid/BlendControl
 
 var _material := ShaderMaterial.new()
-var _shader := preload("./MaskFilter.shader")
+var _shader := preload("./Filter.shader")
 var _input_a = null
 var _input_b = null
 
@@ -56,3 +56,17 @@ func _update_viewport() -> void:
 
 func _on_foldout_changed(state):
     rect_size.y = 0
+
+
+func get_data_dict() -> Dictionary:
+    return {
+        node_offset = var2str(offset),
+        preview_folded = $PreviewFoldout.is_folded,
+        param1 = _blend_control.value,
+       }
+
+
+func load_data(data: Dictionary) -> void:
+    offset = str2var(data.node_offset)
+    $PreviewFoldout.is_folded = data.preview_folded
+    _blend_control.value = data.param1
